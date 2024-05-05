@@ -122,7 +122,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        sx={{ mt: 2, mb: 2 ,color : 'white',padding: '8px',borderRadius: '20px'}}
+                        sx={{ mt: 3, mb: 2 ,color : 'white',padding: '8px',borderRadius: '20px'}}
                         onClick={handleNext}
                     >
                         {activeStep === steps.length - 1 ? 'Finish' : activeStep === steps.length - 2 ? 'Submit' : 'Next'}
