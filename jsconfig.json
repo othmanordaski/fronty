@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "jsx": "preserve",
       // ...
       "baseUrl": ".",
       "paths": {
@@ -10,5 +11,4 @@
       
       }
 }
-  
   
