@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {AlertDialogDemo} from './AlertDialogMenu'
 
-const FoodCard = ({ _id, title, imageUrl, oldPrice, price, description }) => {
+const FoodCard = ({ _id, title, image, oldPrice, price, description }) => {
   const defaultImageUrl = 'https://img.freepik.com/premium-photo/plate-there-is-spaghetti-bolognese-with-cheese-basil_872147-12665.jpg?w=740';
   return (
     <div className='bg-white rounded-3xl shadow-xl overflow-hidden mb-4'>
       <div 
         className='h-[250px]' 
         style={{ 
-          backgroundImage: `url(${imageUrl || defaultImageUrl})`, 
+          backgroundImage: `url(${image || defaultImageUrl})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center' 
         }}
@@ -80,7 +80,7 @@ const Menu = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMenu()
+     fetchMenu()
       .then(response => {
         console.log(response.data);
         setMenuItems(response.data);

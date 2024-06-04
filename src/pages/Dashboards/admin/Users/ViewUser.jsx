@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/avatar"
 
 
-export default function ViewUser ({ id,image, role, username, email, age, phoneNumber, clientAddress, verified }) {
+export default function ViewUser ({ id,image, role, username, email, age, phoneNumber, clientAddress, createdAt,verified }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -28,8 +28,11 @@ export default function ViewUser ({ id,image, role, username, email, age, phoneN
       { label: 'Phone Number', value: phoneNumber, type: 'text' },
     ],
     [
-    { label: 'Client Address', value: clientAddress, type: 'text' },
+    { label: 'Created At', value: createdAt, type: 'text' },
     { label: 'Verified', value: verified ? 'Yes' : 'No', type: 'text' },
+    ],
+    [
+      { label: 'Client Address', value: clientAddress, type: 'text' },
     ]
   ];
 

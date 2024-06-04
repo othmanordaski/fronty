@@ -39,6 +39,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import CircularProgress from '@mui/material/CircularProgress';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 import { Input } from "@/components/ui/input"
 import {
@@ -167,7 +174,7 @@ export const columns :ColumnDef<Users>[] = [
               Copy user ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <ViewUser id={row.getValue("_id")} image={row.getValue("image")} role={row.getValue("role")} username={row.getValue("username")} email={row.getValue("email")} age={row.getValue("age")} clientAddress={row.getValue("clientAddress")} phoneNumber={row.getValue("phoneNumber")} verified={row.getValue("verified")} />
+            <ViewUser id={row.getValue("_id")} image={row.getValue("image")} role={row.getValue("role")} username={row.getValue("username")} email={row.getValue("email")} age={row.getValue("age")} clientAddress={row.getValue("clientAddress")} phoneNumber={row.getValue("phoneNumber")} createdAt={new Date(row.getValue("createdAt")).toLocaleString()} verified={row.getValue("verified")}  />
             <AlertDialogDemo title={'Delete'} id={row.getValue("_id")} role={row.getValue("role")}/>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -180,22 +187,45 @@ export function DataTableDemo() {
   const [data, setData] = React.useState<Users[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [loading, setLoading] = React.useState(false)
+  const [disableNext, setDisableNext] = React.useState(false);
+  const [startIndex, setStartIndex] = React.useState(0);
+  const [endIndex, setEndIndex] = React.useState(5);
   const [role, setRole] = React.useState<"user" | "restaurant" | "delivery">("user");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const handleNext = () => {
+    setStartIndex(prevStartIndex => prevStartIndex + 5);
+    setEndIndex(prevEndIndex => prevEndIndex + 5);
+  };
+
+  const handlePrevious = () => {
+    setStartIndex(prevStartIndex => prevStartIndex - 5);
+    setEndIndex(prevEndIndex => prevEndIndex - 5);
+  };
+  React.useEffect(() => {
+    setStartIndex(0);
+    setEndIndex(5);
+  }, [role]);
+
   React.useEffect(() => {
     setLoading(true);
     fetchUsers(role)
       .then((response) => {
-        console.log(response.data);
-        setData(response.data);
+        
+        if (response.data.length < endIndex) {
+          setDisableNext(true);
+        }else {
+          setDisableNext(false);
+        }
+        const slicedData = response.data.slice(startIndex, endIndex);
+        setData(slicedData);
       })
       .catch((error) => console.error(error))
       .finally(() => {
-        setTimeout(() => setLoading(false), 400);
+        setTimeout(() => setLoading(false), 300);
       });
-  }, [role]);
+  }, [role,startIndex,endIndex]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       age : false ,
@@ -328,6 +358,10 @@ export function DataTableDemo() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
+        <div className="flex justify-center items-center gap-4">
+          <button onClick={handlePrevious} disabled={startIndex == 0}   className={` p-2 rounded-lg w-[60px]  ${startIndex == 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>Previous</button>
+          <button onClick={handleNext}  disabled={disableNext} className={` px-4 py-2 rounded-lg w-[60px] ${ disableNext ? 'bg-gray-100' : 'bg-gray-200'} `}>Next</button>
+        </div>
         </div>
       </div>
     </div>
