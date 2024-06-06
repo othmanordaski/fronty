@@ -23,9 +23,7 @@ export function fetchUsers(role) {
         return api.get('/admin/manage-users');
     }
   }
-export function deleteMenu(id) {
-    return api.delete(`/admin/delete/menu/${id}`);
-}
+
   export function deleteUser(id, role) {
     
     switch (role) {
@@ -47,10 +45,5 @@ export function deleteOrder(id) {
 }
 
 export function fetchMenu() {
-    return api.get('/restaurant/menu', {
-      params : {
-        limits: 9 ,
-        page : 1 ,
-      }
-    });
+    return api.get('/restaurant/menu');
 }

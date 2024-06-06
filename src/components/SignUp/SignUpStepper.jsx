@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -6,16 +7,15 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import StepOne from './SignUp/StepOne';
-import StepTwo from './SignUp/StepTwo';
-import StepThree from './SignUp/StepThree';
-import { FormDataContext } from './FromDataContext';
-import {registerClient} from '../../Api/userApi'
+import StepOne from './FormSteps/StepOne';
+import StepTwo from './FormSteps/StepTwo';
+import StepThree from './FormSteps/StepThree';
+import { FormDataContext } from '../FromDataContext';
+import {registerClient} from '../../../Api/userApi'
 
 const steps = [
     'Account information',
     'Personal information',
-    'Confirmation',
 ];
 
 
@@ -47,20 +47,20 @@ export default function HorizontalLinearAlternativeLabelStepper() {
         phone: '',
         
       });
-    
+      const navigate = useNavigate()
       const handleNext = () => {
-        console.log('before',isValid)
         if (isValid){
-            if (activeStep === steps.length - 2) {
-                console.log('handle submit');
+            if (activeStep === steps.length - 1) {
                 console.log('data',formData);
-                registerClient(formData)
+                const endpoint = formData.role.toLowerCase();
+                console.log('endpoint',endpoint);
+                registerClient(formData,endpoint)
                 .then((response) => {
                     console.log(response.data);
                     console.log('client  registered successfully');
                 })
                 .catch((error) => {
-                    console.log(error.message);
+                    console.log(error.response.data);
                 });
                 setActiveStep((prevActiveStep) => prevActiveStep + 1)
                 setIsValid(false);
@@ -80,6 +80,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
 
     const handleReset = () => {
         setActiveStep(0);
+        navigate('/login')
     };
 
     return (
@@ -98,11 +99,10 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                 <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: 'center', marginTop: '2rem' ,}}>
                 {activeStep === 0 && <StepOne />}
                 {activeStep === 1 && <StepTwo />}
-                {activeStep === 2 && <StepThree />}
                 {activeStep === steps.length && (
-                    <div >
+                    <div  className='flex flex-col items-center justify-center gap-3'>
                     <p >All steps completed</p>
-                    <Button onClick={handleReset}>Reset</Button>
+                    <Button onClick={handleReset}>completed</Button>
                     </div>
                 )}
                 {activeStep < steps.length && (
@@ -125,7 +125,7 @@ export default function HorizontalLinearAlternativeLabelStepper() {
                         sx={{ mt: 3, mb: 2 ,color : 'white',padding: '8px',borderRadius: '20px'}}
                         onClick={handleNext}
                     >
-                        {activeStep === steps.length - 1 ? 'Finish' : activeStep === steps.length - 2 ? 'Submit' : 'Next'}
+                        {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                     </Button>
                     </Box>
                 )}

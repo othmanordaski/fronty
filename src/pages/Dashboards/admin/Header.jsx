@@ -8,8 +8,7 @@ const Header = () => (
       <span className="text-xl font-semibold text-gray-800">Dashboard</span>
     </div>
     <div className="flex items-center gap-4">
-      <MessageCircle className="w-[20px]" />
-      <Bell className="w-[20px]" />
+      
       <AdminAvatar />
     </div>
   </header>

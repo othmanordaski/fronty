@@ -19,9 +19,9 @@ import {
     const [toastType, setToastType] = useState(null);
     const handleDeleteOrder = async (id) => {
       try {
-        const responseStatus=404;
+        const response = await deleteOrder(id)
         console.log(`order with id ${id} has been deleted.`);
-        switch (responseStatus) {
+        switch (response.status) {
             case 200:
                 setToastType('done');
                 break;
@@ -59,8 +59,8 @@ import {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {toastType === 'done' && <ToastSimple />}
-      {toastType === 'error' && <ToastWithTitle />}  
+      {toastType === 'done' && <ToastSimple description={'The order has been deleted'} />}
+      {toastType === 'error' && <ToastWithTitle   />}  
       {toastType === 'not found' && <ToastDestructive />}
       </>
         )

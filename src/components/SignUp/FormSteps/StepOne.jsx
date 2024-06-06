@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import {FormDataContext} from '../FromDataContext'
+import {FormDataContext} from '../../FromDataContext'
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
@@ -17,10 +17,12 @@ export default function StepOne() {
   const [errors, setErrors] = React.useState({});
 
   const handleChange = (event) => {
-    setFormData({
+    const updatedFormData = {
       ...formData,
       [event.target.name]: event.target.value,
-    });
+    };
+    setFormData(updatedFormData);
+  
     schema.validateAt(event.target.name, {[event.target.name]: event.target.value, password: formData.password})
       .then(() => {
         setErrors({...errors, [event.target.name]: ''});

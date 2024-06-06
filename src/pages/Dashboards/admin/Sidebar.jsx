@@ -1,5 +1,5 @@
 import React from "react";
-import { Users ,LayoutGrid ,ClipboardList,ShoppingCart,UtensilsCrossed} from 'lucide-react';
+import { Users ,LayoutGrid ,ClipboardList,ShoppingCart,UtensilsCrossed,LogOut} from 'lucide-react';
 import NavLink from './NavLink';
 
 const Sidebar = () => (
@@ -11,7 +11,9 @@ const Sidebar = () => (
           <NavLink Icon={Users} to='users' text={'Users'} />
           <NavLink Icon={ClipboardList} to='menus' text={'Menus'} />
           <NavLink Icon={ShoppingCart} to='orders' text={'Orders'}/>
-          <NavLink Icon={UtensilsCrossed} to='Restaurants' text={'Restaurants'}/>
+        </div>
+        <div className="mt-auto">
+          <NavLink Icon={LogOut} to='logout' text={'Logout'} className="text-red-500"/>
         </div>
       </nav>
   </div>

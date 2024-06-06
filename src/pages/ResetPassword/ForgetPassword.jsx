@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -6,15 +7,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Button } from "@/components/ui/button"
 import { MailCheck } from 'lucide-react';
 import {Card,CardContent,CardDescription,CardHeader,CardTitle,CardFooter} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { forgetPassword } from '../../../Api/userApi'
+import {ToastDestructive,ToastSimple} from "@/helper/ToastHandler"
+import { Description } from '@radix-ui/react-toast';
 
 const schema = yup.object().shape({
   email: yup.string().required("Email is required").email("Email is not valid"),
 });
 
 export default function ForgetPassword() { 
-
+  const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -26,70 +28,71 @@ export default function ForgetPassword() {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setErrorMessage("");
     try {
       const response = await forgetPassword(data.email);
       if (response.status === 200) {
-      setEmailSent(true);
-    }else if( response.status==404) {
-      setErrorMessage(true)
-    }
+        setEmailSent(true);
+      } else {
+        setErrorMessage("error");
+      }
     } catch (error) {
-      setErrorMessage(true)
-      
+      if (error.response.status === 404){
+        setErrorMessage("email");
+      }else {
+        setErrorMessage("error");
+      }
     }
     setLoading(false);
-  }
-
+  };
+  console.log(errorMessage)
+  
   return (
-    <div  className='min-h-screen h-screen bg-gray-200 overflow-x-hidden   flex justify-center items-center' >
+    <div  className='min-h-screen  bg-gray-200 overflow-x-hidden   flex justify-center items-center ' >
       <Card>
     {emailSent ? (
     <>
-      <CardHeader>
-      <div className="flex justify-center items-center ">
+      <CardHeader className='p-7 px-9'>
+      <div className="flex justify-center items-center p-3 ">
         <div className='flex flex-col p-3 rounded-lg text-white bg-lime-600 justify-center items-center'>
           <MailCheck size={25} />
         </div>
       </div>
-        <CardTitle className="font-semibold pb-4 text-2xl text-lime-600 text-center">Reset email sent</CardTitle>
-        <CardDescription className="text-gray-600 text-center">We have just sent you an email with a password reset link to {email} </CardDescription>
+        <CardTitle className="font-semibold  text-2xl text-lime-600 text-center">Reset email sent</CardTitle>
+        <CardDescription className="text-gray-600 text-center">We have just sent you an email with a password  <br/> reset link to {email} </CardDescription>
       </CardHeader>
       <CardContent className='flex items-center justify-center'>
-      <Button  className='w-40 py-2 rounded-lg text-white bg-lime-600' type="button" onClick={() => window.location.href = '/'}>Got it</Button>
+      <Button  className='w-40 py-2 rounded-lg text-white bg-lime-600' type="button" onClick={() => navigate('/')}>Got it</Button>
       </CardContent>
     </>
     ) : ( 
-    <>
+      <>
         <CardHeader>
-          <CardTitle className="font-semibold pb-5 text-2xl text-lime-600">Password Reset</CardTitle>
-          <CardDescription className="text-gray-600">Enter your email address and we’ll send you a link to reset your password </CardDescription>
+          <CardTitle className="font-semibold text-2xl text-lime-600 text-center px-[90px] pt-3"> Forget  your password ?</CardTitle>
+          <CardDescription className="text-gray-600 text-center pt-3">Your password will be reset by email </CardDescription>
         </CardHeader>
-        {errorMessage ? (<>
-          <p className='text-sm ml-5 pl-3 py-1 text-red-500 '>The email you entered was not found</p>          
-        </>
-        ) : (
-        <>
-        </>)}
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col items-center gap-4 ">
-              <div className="flex flex-col space-y-1.5 w-full ">
-                <Input id="email" type="email" className="bg-gray-100 rounded-lg focus-visible:outline-none focus:ring-2 focus:ring-black w-full p-3" {...register("email")} placeholder="email" />
+            <div className="flex flex-col items-center gap-6 ">
+              <div className="flex flex-col space-y-1.5 w-full">
+                <label className='ml-1 text-lime-600 mb-1'>Email</label>
+                <input id="email" type="email" className="bg-gray-100 rounded-lg focus-visible:outline-none focus:ring-2 focus:ring-lime-600 w-full p-3" {...register("email")} placeholder="Enter your email" />
                 {errors.email && <p className='text-sm text-red-600'>{errors.email.message}</p>}
               </div>
-              < div className='flex justify-center mt-[30px]'>
-                <button className={`flex justify-center   p-[10px] rounded-3xl w-[100px] ${!email ? 'bg-white border-2 border-lime-600 text-lime-600 ' : 'bg-lime-600 text-white '}`} type="submit" disabled={!email || loading } >
+                <button className='flex justify-center  rounded-lg w-full bg-lime-600 text-white py-[10px]' type="submit" disabled={!email || loading } >
                 {loading ? <div className="flex justify-center items-center w-full "><CircularProgress size={24} style={{ color: '#ffffff' }} /></div> : 'Send'}
                 </button>
-              </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className='flex justify-center items-center'>
-          <a href="/login" className="text-lime-600 text-sm text-center">Back to Login</a>
+          <a  className="text-lime-600 text-sm text-center" onClick={() => { navigate('/login')}}>Back to Login</a>
         </CardFooter>
-        </>)}
+        </>
+        )}
         </Card>
+        {errorMessage === 'email' && <ToastDestructive title={'error'} description={'Email not found'} />}
+        {errorMessage === 'error' && <ToastDestructive title={'error'} description={'An error occurred while sending the reset email.'}/>}  
     </div>
   )
 }

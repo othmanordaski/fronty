@@ -10,6 +10,7 @@ import Login from '../components/login/login-form';
 import NotAuthorized from '../pages/NotAuthorized/NotAuthorized';
 import Dashboard from '../pages/Dashboards/admin/dashbord';
 import ProtectedRoute from './ProtectedRoute';
+import { Toaster } from "@/components/ui/toaster"
 
 
 const AppRouter = () => {
@@ -17,10 +18,11 @@ const AppRouter = () => {
   return (
     <Router>
         <UserProvider>
+        <Toaster />
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<SignUpClient />} />
-                <Route path="/register/user" element={<SignUp />} />
+                <Route path="/signup" element={<SignUp />} />
                 <Route path="/client/verify/:id/:token" element={<VerifyEmail />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/reset-password" element={<ForgetPassword />} />

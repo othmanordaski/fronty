@@ -32,7 +32,7 @@ function ResetPassword() {
       console.log('data', data);
       const response = await resetPassword(token, data);
       if (response.status === 200) {
-        navigate('/home');
+        navigate('/login');
       } else {
         console.error('Error resetting password:', response);
       }

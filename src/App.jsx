@@ -1,12 +1,12 @@
-import React from 'react'
-import SignUp from './components/SignUp'
-function App() {
+import React from 'react';
+import AppRouter from './routes/AppRouter';
 
-  return (
-    <>
-      <SignUp />
-    </>
-  )
+
+
+
+function App() {
+  console.log('App');
+  return <AppRouter />;
 }
 
-export default App
+export default App;

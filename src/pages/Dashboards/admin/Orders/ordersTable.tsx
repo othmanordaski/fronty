@@ -43,15 +43,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import ViewOrder from './viewOrder'
 
 export type Order = {
-  id: string
-  status: 'pending' | 'completed' | 'cancelled'
-  customerId: string
-  restaurantId: string
-  
-  
-}
+  id: string;
+  items: {
+    menuId: string;
+    quantity: number;
+    _id: string;
+  }[];
+  total: number;
+  status: 'pending' | 'completed' | 'cancelled';
+  customerId: string;
+  restaurantId: string;
+  createdAt: Date;
+};
 
 export const columns :ColumnDef<Users>[] = [
   {
@@ -81,6 +87,20 @@ export const columns :ColumnDef<Users>[] = [
     header: "Id",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("_id")}</div>
+    ),
+  },
+  {
+    accessorKey: "total",
+    header: "Total price",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("total")}</div>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <div>{new Date(row.getValue("createdAt")).toLocaleString()}</div>
     ),
   },
   {
@@ -122,10 +142,10 @@ export const columns :ColumnDef<Users>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(row.getValue("_id"))}
             >
-              Copy user ID
+              Copy order ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <ViewOrder id={row.getValue("_id")} total={row.getValue("total")}   status={row.getValue("status")} customerId={row.getValue("customerId")}  restaurantId={row.getValue("restaurantId")} createdAt={new Date(row.getValue("createdAt")).toLocaleString()}  />
             <AlertDialogDemo title={'Delete'} id={row.getValue("_id")} />
           </DropdownMenuContent>
           
@@ -150,7 +170,9 @@ export function DataTableDemo() {
   },);
 
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({
+      
+    })
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({

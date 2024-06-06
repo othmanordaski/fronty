@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import jwt from 'jsonwebtoken';
 
 const api = axios.create({
     baseURL: 'http://localhost:3000',
@@ -8,11 +9,11 @@ const api = axios.create({
 });
 
 
-export function registerClient(body) {
-    return api.post('/client/register', body)
+export function registerClient(body,endpoint) {
+    return api.post(`/${endpoint}/register`, body)
 }
 export function registerUser(body) {
-    return api.post('/client/register/user', body)
+    return api.post('/client/register', body)
 }
 export function verifyEmail(id,token) {
     return api.get(`/client/verify/${id}/${token}`)
@@ -22,4 +23,9 @@ export function forgetPassword (email) {
 }
 export function resetPassword (token, body) {
     return api.post(`/client/reset-password/${token}`, body)
+}
+
+export function loginUserApi(email,password,endpoint) {
+    console.log(endpoint)
+    return api.post(`/${endpoint}/login`, {email : email, password : password})
 }

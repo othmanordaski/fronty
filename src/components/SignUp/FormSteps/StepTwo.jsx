@@ -2,7 +2,9 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
-import { FormDataContext } from '../FromDataContext';
+import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import { FormDataContext } from '../../FromDataContext';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
@@ -15,6 +17,8 @@ const schema = yup.object().shape({
 export default function StepTwo() {
   const {formData,setFormData,setIsValid} = React.useContext(FormDataContext);
   const [errors, setErrors] = React.useState({});
+  const [value, setValue] = React.useState();
+
 
   const handleChange = (event) => {
     setFormData({
@@ -90,16 +94,16 @@ export default function StepTwo() {
         <TextField
           required
           fullWidth
-          id="phone"
+          id="phoneNumber"
           label="Phone Number"
           name="phone"
-          type="tel"
           value={formData.phone}
           onChange={handleChange}
           error={!!errors.phone}
           helperText={errors.phone}
         />
       </Grid>
+      
     </Grid>
   );
 }

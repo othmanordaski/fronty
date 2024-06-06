@@ -11,6 +11,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+  import {deleteMenu} from '@services/adminService'
   
 
 
@@ -18,9 +19,9 @@ import {
     const [toastType, setToastType] = useState(null);
     const handleDeleteOrder = async (id) => {
       try {
-        const responseStatus=200;
+        const response = await deleteMenu(id);
         console.log(`Menu with id ${id} has been deleted.`);
-        switch (responseStatus) {
+        switch (response.status) {
             case 200:
                 setToastType('done');
                 break;
@@ -58,8 +59,8 @@ import {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {toastType === 'done' && <ToastSimple />}
-      {toastType === 'error' && <ToastWithTitle />}  
+      {toastType === 'done' && <ToastSimple  description={'The menu has been deleted'}/>}
+      {toastType === 'error' && <ToastWithTitle description={'Something went wrong'}/>}  
       {toastType === 'not found' && <ToastDestructive />}
       </>
         )

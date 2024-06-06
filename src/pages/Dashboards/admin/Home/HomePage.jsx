@@ -16,7 +16,7 @@ function Home() {
                 <Users className='text-lime-600' />
               </div>
             </div>
-            <p className='text-2xl font-semibold text-gray-700 mt-4'>123</p>
+            <p className='text-2xl font-semibold text-gray-700 mt-4'>18</p>
           </div>
           <div className='bg-gray-100 p-6 flex flex-col justify-between rounded-lg'>
             <div className='flex justify-between items-center'>
@@ -25,7 +25,7 @@ function Home() {
                 <ShoppingCart className='text-lime-600' />
               </div>
             </div>
-            <p className='text-2xl font-semibold text-gray-700 mt-4'>456</p>
+            <p className='text-2xl font-semibold text-gray-700 mt-4'>2</p>
           </div>
           <div className='bg-gray-100 p-6 flex flex-col justify-between rounded-lg'>
             <div className='flex justify-between items-center'>
@@ -34,7 +34,7 @@ function Home() {
                 <ClipboardList className='text-lime-600' />
               </div>
             </div>
-            <p className='text-2xl font-semibold text-gray-700 mt-4'>789</p>
+            <p className='text-2xl font-semibold text-gray-700 mt-4'>9</p>
           </div>
         </div>
         <div className='bg-gray-100 p-6 flex flex-col gap-3 rounded-lg'>

@@ -39,14 +39,10 @@ import {
             <DropdownMenuItem>
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={logout} >
+            <DropdownMenuItem onClick={logout}>
             Log out
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>        
         </DropdownMenuContent>
       </DropdownMenu>
     )

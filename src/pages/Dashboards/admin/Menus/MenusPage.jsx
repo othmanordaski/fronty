@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { fetchMenu } from '@services/adminService';
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, View } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
@@ -11,8 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {AlertDialogDemo} from './AlertDialogMenu'
+import ViewMenu from './viewMenu';
 
-const FoodCard = ({ _id, title, image, oldPrice, price, description }) => {
+const FoodCard = ({ _id, name, image, oldPrice, price, description }) => {
   const defaultImageUrl = 'https://img.freepik.com/premium-photo/plate-there-is-spaghetti-bolognese-with-cheese-basil_872147-12665.jpg?w=740';
   return (
     <div className='bg-white rounded-3xl shadow-xl overflow-hidden mb-4'>
@@ -25,7 +26,7 @@ const FoodCard = ({ _id, title, image, oldPrice, price, description }) => {
         }}
       ></div>      
       <div className='p-3 sm:p-4'>
-        <p className='font-bold text-gray-700 text-[18px] leading-6 mb-1'>{title}</p>
+        <p className='font-bold text-gray-700 text-[18px] leading-6 mb-1'>{name}</p>
         <div className='flex flex-row'>
           <p className='text-[#3C3C4399] text-[15px] mr-2 line-through'>{oldPrice || ''}</p>
           <div className='flex flex-1 justify-between items-start'>
@@ -36,7 +37,7 @@ const FoodCard = ({ _id, title, image, oldPrice, price, description }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align='start'>
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>View</DropdownMenuItem>
+                <ViewMenu _id={_id} name={name} image={image} oldPrice={oldPrice} price={price} description={description} />
                 <AlertDialogDemo title={'Delete'} id={_id} />
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -49,7 +50,7 @@ const FoodCard = ({ _id, title, image, oldPrice, price, description }) => {
 };
 
 FoodCard.propTypes = {
-  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   imageUrl: PropTypes.string,
   oldPrice: PropTypes.string,
   price: PropTypes.string.isRequired,

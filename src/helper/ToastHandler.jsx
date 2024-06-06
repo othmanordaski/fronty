@@ -22,6 +22,7 @@ export function ToastWithTitle({ title, description }) {
 
   useEffect(() => {
     toast({
+      title: title || "Uh oh! Something went wrong.",
       description: description || "There was a problem with your request.",
     })
   }, []);

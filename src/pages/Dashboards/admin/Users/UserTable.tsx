@@ -293,7 +293,6 @@ export function DataTableDemo() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className="bg-lime-600 p-3 text-white px-4 gap-2 ">New  User<Plus size={'15px'}/></Button>
       </div>
       <div className="rounded-xl border">
         <Table>
